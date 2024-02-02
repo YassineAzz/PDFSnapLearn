@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState }  from 'react';
 import axios from 'axios';
 import '../Style/button.css';
 
@@ -9,20 +9,20 @@ const Button = ({ onFileChange, text }) => {
     fileInputRef.current.click();
   };
 
+  const [isLoading, setIsLoading] = useState(false)
+  
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
-
-      // Send the file to back end
+      setIsLoading(true)
       const formData = new FormData();
       formData.append('file', file);
-
       try {
         const response = await axios.post('http://127.0.0.1:5000/analyse_pdf', formData);
-        // Back end response
         console.log(response.data);
       } catch (error) {
-        // Handle the error
-        console.error('Erreur lors de l\'analyse du PDF:', error);
+        console.error('ERROR DURING PDF ANALYSIS:', error);
+      }  finally {
+        setIsLoading(false)
       }
   };
 
@@ -34,8 +34,9 @@ const Button = ({ onFileChange, text }) => {
         style={{ display: 'none' }}
         onChange={handleFileChange}
       />
-      <button className="custom-button" onClick={handleButtonClick}>
+      <button disabled={isLoading} className="custom-button" onClick={handleButtonClick}>
         {text}
+        {isLoading ? 'Chargement...' : 'Upload a PDF'}
       </button>
     </div>
   );

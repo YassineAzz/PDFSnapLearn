@@ -23,9 +23,7 @@ def analyse_pdf():
                 page = pdf_document[page_num]
                 text = page.get_text()
                 result_PDF = analyse_texte(text)
-            print(result_PDF)
-                # print(text)
-            return 'PDF received'
+            return result_PDF
 
     except Exception as e:
         print('Error during the pdf analyze :', str(e))
