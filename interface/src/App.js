@@ -26,7 +26,7 @@ function App() {
 
       {showChat && <Chat onClose={handleToggleChat} />}
     </div>
-        <Button onClick={handleFileChange} text="Upload a PDF" />
+        <Button onClick={handleFileChange} />
       </header>
     </div>
   );

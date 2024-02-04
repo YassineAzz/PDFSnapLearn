@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import fitz  # PyMuPDF
 
+from PDF_analyzer import analyse_texte 
+
 app = Flask(__name__)
 CORS(app)  # Cross-Origin Request (CORS)
 
@@ -14,12 +16,14 @@ def analyse_pdf():
     try:
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
-            # Print data received from front
-            content = uploaded_file.read()
-            print(content)
-
-            # Modify, Analyze the pdf
-            return 'PDF received'
+            # Open the PDF file
+            pdf_document = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+            # Iterate through all pages and extract text
+            for page_num in range(pdf_document.page_count):
+                page = pdf_document[page_num]
+                text = page.get_text()
+                result_PDF = analyse_texte(text)
+            return result_PDF
 
     except Exception as e:
         print('Error during the pdf analyze :', str(e))
