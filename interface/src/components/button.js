@@ -1,10 +1,10 @@
-import React, { useRef, useState }  from 'react';
-import axios from 'axios';
-import '../Style/button.css';
+import React, { useRef, useState }  from 'react'
+import axios from 'axios'
+import '../Style/button.css'
+
 
 const Button = ({ onFileChange, text }) => {
   const fileInputRef = useRef(null);
-
   const handleButtonClick = async () => {
     fileInputRef.current.click();
   };
@@ -23,6 +23,7 @@ const Button = ({ onFileChange, text }) => {
         console.error('ERROR DURING PDF ANALYSIS:', error);
       }  finally {
         setIsLoading(false)
+        window.location.href = `/discussion`
       }
   };
 
